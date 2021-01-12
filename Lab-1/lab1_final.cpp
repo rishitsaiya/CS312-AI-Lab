@@ -1,9 +1,13 @@
-#include <iostream> 
-#include<fstream>
-#include <queue> 
-#include <vector>
-#include<stack>
-#include<string>
+// #include <iostream> 
+// #include<fstream>
+// #include <queue> 
+// #include <vector>
+// #include<stack>
+// #include<string>
+// #include<cstring>
+
+#include<bits/stdc++.h>
+
 using namespace std; 
 int **input; //matrix to contain maze in binary form
 bool **visited; //matrix to store visited cells
@@ -12,23 +16,20 @@ int **final_path; //matrix to store the final path
 int states_explored = 0; //number of states explored before reaching the goal
 
 /* struct to store coordinates of a cell */
-struct Point 
-{ 
+struct Point { 
     int x; 
     int y; 
 }; 
 
 /* struct which contains the coordinates, distance from source and parent of the cell */
-struct queueNode 
-{ 
+struct queueNode { 
     Point pt;
     int dist;
     queueNode* pptr; 
 }; 
  
 /* function to check if a cell is valid */  
-bool isValid(int row, int col, int n, int m) 
-{ 
+bool isValid(int row, int col, int n, int m) { 
     return (row >= 0) && (row < n) && 
            (col >= 0) && (col < m); 
 } 
@@ -38,16 +39,13 @@ int rowNum[] = {1, -1, 0, 0};
 int colNum[] = {0, 0, 1, -1}; 
 
 /* function to implement depth limited search */
-int final_DFIS(int** mat, int n, int m, Point src, Point dest, int limit, queueNode* prev_ptr, bool** visited, int** min_depth) 
-{ 
+int final_DFIS(int** mat, int n, int m, Point src, Point dest, int limit, queueNode* prev_ptr, bool** visited, int** min_depth) { 
     /* check to ensure that source and goal cells are valid */
-    if (!mat[src.x][src.y] || !mat[dest.x][dest.y]) 
-    {
+    if (!mat[src.x][src.y] || !mat[dest.x][dest.y]) {
         return -1; 
     }
     /* if depth limit is reached, returns -1 */
-    if (limit==0)
-    {
+    if (limit==0){
         return -1;
     }
     /* node to store details of the current cell */
@@ -59,11 +57,9 @@ int final_DFIS(int** mat, int n, int m, Point src, Point dest, int limit, queueN
     min_depth[src.x][src.y]=root->dist;
 
     /* checking if the current cell is goal, storing the path and returning the path distance */
-    if (src.x == dest.x && src.y == dest.y)
-    {
+    if (src.x == dest.x && src.y == dest.y){
         queueNode* curr = root;
-        while(curr->pptr!=NULL)
-        {
+        while(curr->pptr!=NULL){
             final_path[curr->pt.x][curr->pt.y]=1;
             curr = curr->pptr;
         }
@@ -74,19 +70,16 @@ int final_DFIS(int** mat, int n, int m, Point src, Point dest, int limit, queueN
     visited[src.x][src.y] = true;
 
     /* checking for valid adjacent cells that can be explored */
-    for (int i = 0; i < 4; i++) 
-    { 
+    for (int i = 0; i < 4; i++) { 
         int row = src.x + rowNum[i]; 
         int col = src.y + colNum[i]; 
         Point curr_point;
         curr_point.x = row;
         curr_point.y = col;
         if (isValid(row, col, n, m) && mat[row][col] &&  
-           (!visited[row][col] || min_depth[row][col]>root->dist+1)) 
-        { 
+           (!visited[row][col] || min_depth[row][col]>root->dist+1)) { 
             int dist = final_DFIS(mat, n, m, curr_point, dest, limit - 1, root, visited, min_depth);
-            if(dist>-1)
-            {
+            if(dist > -1){
                 return dist;
             }
         }
@@ -95,8 +88,7 @@ int final_DFIS(int** mat, int n, int m, Point src, Point dest, int limit, queueN
 } 
 
 /* function to implement depth first search */
-int final_DFS(int** mat, int n, int m, Point src, Point dest) 
-{ 
+int final_DFS(int** mat, int n, int m, Point src, Point dest) { 
 	states_explored=0;
     /* check to ensure that source and goal cells are valid */
     if (!mat[src.x][src.y] || !mat[dest.x][dest.y]) 
@@ -115,18 +107,15 @@ int final_DFS(int** mat, int n, int m, Point src, Point dest)
     s->pptr = NULL;
    	q.push(s);
 
-    while (!q.empty()) 
-    { 
+    while (!q.empty()) { 
     	states_explored++;
         queueNode* curr = q.top(); 
         Point pt = curr->pt; 
 
         /* checking if the current cell is goal, storing the path and returning the path distance */
-        if (pt.x == dest.x && pt.y == dest.y) 
-        {
+        if (pt.x == dest.x && pt.y == dest.y) {
         	queueNode* root = curr;
-        	while(root->pptr!=NULL)
-        	{
+        	while(root->pptr!=NULL){
         		final_path[root->pt.x][root->pt.y]=1;
         		root = root->pptr;
         	}
@@ -136,13 +125,11 @@ int final_DFS(int** mat, int n, int m, Point src, Point dest)
         q.pop(); 
     
         /* checking for valid adjacent cells that can be explored and pushing them to the stack */
-        for (int i = 0; i < 4; i++) 
-        { 
+        for (int i = 0; i < 4; i++) { 
             int row = pt.x + rowNum[i]; 
             int col = pt.y + colNum[i]; 
             if (isValid(row, col, n, m) && mat[row][col] &&  
-               !visited[row][col]) 
-            {  
+               !visited[row][col]) {  
                 visited[row][col] = true; 
                 queueNode* Adjcell = new queueNode;
                 Adjcell->pt.x = row;
@@ -157,8 +144,7 @@ int final_DFS(int** mat, int n, int m, Point src, Point dest)
 } 
 
 /* function to implement breadth first search */
-int final_BFS(int** mat, int n, int m, Point src, Point dest) 
-{ 
+int final_BFS(int** mat, int n, int m, Point src, Point dest) { 
 	states_explored=0;
     /* check to ensure that source and goal cells are valid */
     if (!mat[src.x][src.y] || !mat[dest.x][dest.y]) 
@@ -177,18 +163,15 @@ int final_BFS(int** mat, int n, int m, Point src, Point dest)
     s->dist = 0;
     s->pptr = NULL;
     q.push(s); 
-    while (!q.empty()) 
-    { 
+    while (!q.empty()) { 
     	states_explored++;
         queueNode* curr = q.front(); 
         Point pt = curr->pt; 
 
         /* checking if the current cell is goal, storing the path and returning the path distance */
-        if (pt.x == dest.x && pt.y == dest.y) 
-        {
+        if (pt.x == dest.x && pt.y == dest.y) {
         	queueNode* root = curr;
-        	while(root->pptr!=NULL)
-        	{
+        	while(root->pptr!=NULL){
         		final_path[root->pt.x][root->pt.y]=1;
         		root = root->pptr;
         	}
@@ -198,13 +181,11 @@ int final_BFS(int** mat, int n, int m, Point src, Point dest)
         q.pop(); 
   
         /* checking for valid adjacent cells that can be explored and pushing them to the queue */
-        for (int i = 0; i < 4; i++) 
-        { 
+        for (int i = 0; i < 4; i++) { 
             int row = pt.x + rowNum[i]; 
             int col = pt.y + colNum[i]; 
             if (isValid(row, col, n, m) && mat[row][col] &&  
-               !visited[row][col]) 
-            { 
+               !visited[row][col]) { 
                 visited[row][col] = true; 
                 queueNode* Adjcell = new queueNode;
                 Adjcell->pt.x = row;
@@ -218,8 +199,7 @@ int final_BFS(int** mat, int n, int m, Point src, Point dest)
     return -1; 
 } 
 
-int main(int argc, char* argv[]) 
-{ 	
+int main(int argc, char* argv[]) { 	
     int mode; //defines the type of search to be implemented
     int n, m; //row and column size of the maze
     int counter = 0; //keeps track of the input file contents in terms of number of lines
@@ -231,14 +211,12 @@ int main(int argc, char* argv[])
     ifstream in_file(argv [1]);
     string s;
     while (getline(in_file, s)) {
-        if(counter==0)
-        {
+        if(counter==0){
             mode=stoi(s);
             counter++;
             continue;
         }
-        if(counter==1)
-        {
+        if(counter==1){
         	m = s.size(); //fetching column size
         }
         string l;
@@ -267,21 +245,18 @@ int main(int argc, char* argv[])
                  store.push_back("0");
                  maze.push_back(s[i]);
             }
-            else
-            {
+            else{
             	l += "0";
                  store.push_back("0");
                  maze.push_back(s[i]);
             }
             is_empty = false;
         }
-        if(!is_empty)
-        {
+        if(!is_empty){
         	counter++;
         }
     }
-    if(s.size()!=0)
-    {
+    if(s.size()!=0){
     	m = s.size(); //fetching column size
     }
     n = counter-1; //fetching row size
@@ -289,25 +264,19 @@ int main(int argc, char* argv[])
     final_path = new int *[m]; //creating matrix to store the final path
     /* processing maze into binary format */
     store[0]="1";
-    for(int i = 0; i <n; i++)
-    {
+    for(int i = 0; i <n; i++){
     	input[i] = new int[m];
     }
-    for(int i = 0; i <n; i++)
-    {
+    for(int i = 0; i <n; i++){
     	final_path[i] = new int[m];
     }
     int feed = 0;
-    for(int i=0;i<n;i++)
-    {
-       for(int j=0;j<m;j++)
-       {
-            if(store[feed]=="1" || store[feed]=="*")
-            {
+    for(int i=0;i<n;i++){
+       for(int j=0;j<m;j++){
+            if(store[feed]=="1" || store[feed]=="*"){
                 input[i][j]=1;
             }
-            else
-            {
+            else{
                 input[i][j]=0;
             }
             feed++;
@@ -319,16 +288,13 @@ int main(int argc, char* argv[])
     Point dest = {dest_x, dest_y};
     int dist; //stores distance of goal from source
     
-    if(mode == 0) /* BFS mode */
-    {
+    if(mode == 0) /* BFS mode */{
     	dist = final_BFS(input, n, m, source, dest); 
     }
-    else if(mode == 1) /* DFS mode */
-    {
+    else if(mode == 1) /* DFS mode */{
     	dist = final_DFS(input, n, m, source, dest); 
     }
-    else if(mode == 2) /* DFIS mode */
-    {
+    else if(mode == 2) /* DFIS mode */{
     	int iter=0;
         int limit = 1;
         int prev_states_explored = 0;
@@ -337,27 +303,23 @@ int main(int argc, char* argv[])
         root->pt.y = source.y;
         root->dist = 0;
         root->pptr = NULL;
-        while(true)
-        {
+        while(true){
             visited = new bool *[m];
-            for(int i = 0; i <n; i++)
-            {
+            for(int i = 0; i <n; i++){
                 visited[i] = new bool[m];
             }
             min_depth = new int *[m];
-            for(int i = 0; i <n; i++) //iteratively increase depth until goal is found
-            {
+            for(int i = 0; i <n; i++) {
+            //iteratively increase depth until goal is found
                 min_depth[i] = new int[m];
             }
             dist = final_DFIS(input, n, m, source, dest, limit, root, visited, min_depth);
             prev_states_explored = states_explored;
             iter++;
-            if(dist == -1)
-            {
+            if(dist == -1){
                 limit++;
             }
-            else
-            {
+            else{
                 break;
             }
         }
@@ -372,16 +334,12 @@ int main(int argc, char* argv[])
     else
         out<<-1<<endl;
     int temp = 0; 
-    for(int i=0;i<n;i++)
-    {
-    	for(int j=0;j<m;j++)
-    	{
-    		if(final_path[i][j]==1)
-            {
+    for(int i=0;i<n;i++){
+    	for(int j=0;j<m;j++){
+    		if(final_path[i][j]==1){
                 out<<0;
             }
-    		else
-            {
+    		else{
                 out<<maze[temp];
             }
     		temp++;
@@ -392,4 +350,3 @@ int main(int argc, char* argv[])
     out.close();
 	return 0; 
 } 
-
