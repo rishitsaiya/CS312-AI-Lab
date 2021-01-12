@@ -1,0 +1,22 @@
+Please run the file as follows:
+$ python3 sudoku.py <input_file>
+
+Please refer to the sample input file for the input format.
+Note: Empty cells in the 4 x 4 sudoku puzzles are represented as 0s.
+For example, a puzzle like the one below will be represented in the input file as 
+0000
+0210
+3000
+0100
+
++-----------+
+|  |  |  |  |
++-----------+
+|  |2 |1 |  |
++-----------+
+|3 |  |  |	|
++-----------+
+|  |1 |  |	|
++-----------+
+
+Please provide only one input puzzle in the above format at a time in the input file. Output will be displayed on the terminal screen for different search techniques.

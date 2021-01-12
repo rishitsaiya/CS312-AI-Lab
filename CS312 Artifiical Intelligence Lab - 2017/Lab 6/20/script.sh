@@ -1,0 +1,1 @@
+python2.7 AO.py $1

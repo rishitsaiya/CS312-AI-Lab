@@ -1,0 +1,3 @@
+3
+(ontable a)^(ontable b)^(ontable c)
+(on a b)^(on b c)

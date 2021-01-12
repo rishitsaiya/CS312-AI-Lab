@@ -1,0 +1,8 @@
+Run the script as follows:
+./script.sh <filename>
+
+You will get an output of the following format:
+The answer graph contains below edges for underestimating heuristic:
+<list of edges>
+The answer graph contains below edges for overestimating heuristic:
+<list of edges>
