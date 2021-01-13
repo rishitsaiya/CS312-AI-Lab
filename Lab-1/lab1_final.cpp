@@ -1,17 +1,9 @@
-// #include<fstream>
-// #include <queue>
-// #include<stack>
-// #include<cstring>
-
 #include <bits/stdc++.h>
-
 using namespace std;
 
 int **Binary_Maze;     // matrix to contain maze in binary form
 int **Path_For_Pacman; // matrix to binary_Maze the final path
 
-bool **Visited_Cells;       // matrix to binary_Maze Visited cells
-int **min_depth;            // matrix to binary_Maze the minimum depth at which the cells are Visited
 int NumOfStateExplored = 0; // number of states explored before reaching the goal
 
 /* struct to binary_Maze coordinates of a cell */
@@ -29,72 +21,17 @@ struct PointList
 };
 
 /* function to check if a cell is valid */
-bool validity(int row, int col, int n, int m)
+bool validity(int row, int column, int n, int m)
 {
-    if ((row >= 0) && (row < n) && (col >= 0) && (col < m))
-    {
+    if ((row >= 0) && (row < n) && (column >= 0) && (column < m))
         return true;
-    }
     else
-    {
         return false;
-    }
 }
 
 /* arrays which contain the order in which next valid cells are to be explored */
 int column_Shift[] = {0, 0, 1, -1};
 int row_Shift[] = {1, -1, 0, 0};
-
-/* function to implement depth limited search */
-int DFIS(int **path, int n, int m, Point src, Point Food_destination, int limit, PointList *prev_ptr, bool **Visited_Cells, int **min_depth)
-{
-    /* if depth limit is reached, returns -1 */
-    if (limit == 0)
-        return -1;
-
-    /* node to binary_Maze details of the current cell */
-    PointList *Source = new PointList;
-    Source->point.x = src.x;
-    Source->point.y = src.y;
-    Source->point_distance = prev_ptr->point_distance + 1;
-    Source->pointer = prev_ptr;
-    min_depth[src.x][src.y] = Source->point_distance;
-
-    /* checking if the current cell is goal, storing the path and returning the path distance */
-    if (src.x == Food_destination.x && src.y == Food_destination.y)
-    {
-        PointList *curr = Source;
-        while (curr->pointer != NULL)
-        {
-            Path_For_Pacman[curr->point.x][curr->point.y] = 1;
-            curr = curr->pointer;
-        }
-        Path_For_Pacman[curr->point.x][curr->point.y] = 1;
-        return Source->point_distance;
-    }
-    NumOfStateExplored++;
-    Visited_Cells[src.x][src.y] = true;
-
-    /* checking for valid adjacent cells that can be explored */
-    for (int i = 0; i < 4; i++)
-    {
-        int row = src.x + row_Shift[i];
-        int col = src.y + column_Shift[i];
-        Point curr_point;
-        curr_point.x = row;
-        curr_point.y = col;
-        if (validity(row, col, n, m) && path[row][col] &&
-            (!Visited_Cells[row][col] || min_depth[row][col] > Source->point_distance + 1))
-        {
-            int dist = DFIS(path, n, m, curr_point, Food_destination, limit - 1, Source, Visited_Cells, min_depth);
-            if (dist > -1)
-            {
-                return dist;
-            }
-        }
-    }
-    return -1;
-}
 
 /* function to implement depth first search */
 int DFS(int **path, int n, int m, Point Food_destination)
@@ -214,6 +151,66 @@ int BFS(int **path, int n, int m, Point Food_destination)
     return -1;
 }
 
+/* function to implement depth limited search */
+
+bool **Visited_Cells; // matrix to binary_Maze Visited cells
+int **min_depth;      // matrix to binary_Maze the minimum depth at which the cells are Visited
+
+int DFIS(int **path, int n, int m, Point Previous, Point Food_destination, int limit, PointList *prev_ptr)
+{
+    /* if depth limit is reached, returns -1 */
+    if (limit == 0)
+        return -1;
+
+    /* node to binary_Maze details of the current cell */
+    PointList *Current = new PointList;
+    Current->point.x = Previous.x;
+    Current->point.y = Previous.y;
+    Current->point_distance = prev_ptr->point_distance + 1;
+    Current->pointer = prev_ptr;
+    min_depth[Previous.x][Previous.y] = Current->point_distance;
+
+    /* checking if the current cell is goal, storing the path and returning the path distance */
+    if (Previous.x == Food_destination.x && Previous.y == Food_destination.y)
+    {
+        PointList *Prev = Current;
+        while (Prev->pointer != NULL)
+        {
+            Path_For_Pacman[Prev->point.x][Prev->point.y] = 1;
+            Prev = Prev->pointer;
+        }
+        Path_For_Pacman[Prev->point.x][Prev->point.y] = 1;
+        return Current->point_distance;
+    }
+
+    NumOfStateExplored++;
+    Visited_Cells[Previous.x][Previous.y] = true;
+
+    /* checking for valid adjacent cells that can be explored */
+    for (int i = 0; i < 4; i++)
+    {
+        int row = Previous.x + row_Shift[i];
+        int column = Previous.y + column_Shift[i];
+
+        Point curr_point;
+        curr_point.x = row;
+        curr_point.y = column;
+
+        if (
+            validity(row, column, n, m) 
+            && path[row][column]
+            && (!Visited_Cells[row][column] || min_depth[row][column] > Current->point_distance + 1)
+        )
+        {
+            int dist = DFIS(path, n, m, curr_point, Food_destination, limit - 1, Current);
+
+            if (dist > -1)
+                return dist;
+        }
+    }
+    return -1;
+}
+
 int main(int argc, char *argv[])
 {
     int ALGO_CODE; // defines the type of search to be implemented
@@ -277,7 +274,7 @@ int main(int argc, char *argv[])
 
     Point initial_pos = {0, 0};
     Point Food_destination = {food_X, food_Y};
-    int distance; // distance of goal from source
+    int distance = -1; // distance of goal from source
 
     if (!Binary_Maze[0][0] || !Binary_Maze[Food_destination.x][Food_destination.y])
     {
@@ -293,38 +290,30 @@ int main(int argc, char *argv[])
     }
     else if (ALGO_CODE == 2) /* DFIS */
     {
-        int iter = 0;
-        int limit = 1;
-        int prev_NumOfStateExplored = 0;
+
+        Visited_Cells = new bool *[m];
+        min_depth = new int *[m];
+
+        int limit = 0;
+
         PointList *Source = new PointList;
-        Source->point.x = initial_pos.x;
-        Source->point.y = initial_pos.y;
+
+        Source->point.x = 0;
+        Source->point.y = 0;
         Source->point_distance = 0;
         Source->pointer = NULL;
-        while (true)
+
+        while (distance == -1)
         {
-            Visited_Cells = new bool *[m];
+            limit++;
+
             for (int i = 0; i < n; i++)
             {
                 Visited_Cells[i] = new bool[m];
+                min_depth[i] = new int[m]; //iteratively increase depth until goal is found
             }
-            min_depth = new int *[m];
-            for (int i = 0; i < n; i++)
-            {
-                //iteratively increase depth until goal is found
-                min_depth[i] = new int[m];
-            }
-            distance = DFIS(Binary_Maze, n, m, initial_pos, Food_destination, limit, Source, Visited_Cells, min_depth);
-            prev_NumOfStateExplored = NumOfStateExplored;
-            iter++;
-            if (distance == -1)
-            {
-                limit++;
-            }
-            else
-            {
-                break;
-            }
+
+            distance = DFIS(Binary_Maze, n, m, initial_pos, Food_destination, limit, Source);
         }
         distance--;
     }
