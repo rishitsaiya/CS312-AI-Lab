@@ -30,8 +30,16 @@ bool validity(int row, int column, int n, int m)
 }
 
 /* arrays which contain the order in which next valid cells are to be explored */
-int column_Shift[] = {0, 0, 1, -1};
-int row_Shift[] = {1, -1, 0, 0};
+
+// right,left,down,up
+// int column_Shift[] = {0, 0, 1, -1};
+// int row_Shift[] = {1, -1, 0, 0};
+
+// down,left,up,right
+int column_Shift[] = {1, 0, -1, 0};
+int row_Shift[] = {0, -1, 0, 1};
+
+
 
 /* function to implement depth first search */
 int DFS(int **path, int n, int m, Point Food_destination)
