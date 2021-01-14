@@ -35,9 +35,9 @@ bool validity(int row, int column, int n, int m)
 // int column_Shift[] = {0, 0, 1, -1};
 // int row_Shift[] = {1, -1, 0, 0};
 
-// down,left,up,right
-int column_Shift[] = {1, 0, -1, 0};
-int row_Shift[] = {0, -1, 0, 1};
+// down,up,right,left,
+int column_Shift[] = {1,-1, 0, 0};
+int row_Shift[] = {0, 0, 1, -1};;
 
 
 
@@ -46,6 +46,7 @@ int DFS(int **path, int n, int m, Point Food_destination)
 {
     /* matrix to binary_Maze Visited_Cells cells */
     bool visited[n][m];
+    memset(visited, false, sizeof visited); 
     visited[0][0] = true;
 
     /* stack that maintains the cells that are to be explored next */
@@ -104,6 +105,7 @@ int BFS(int **path, int n, int m, Point Food_destination)
 {
     /* matrix to binary_Maze Visited cells */
     bool visited[n][m];
+    memset(visited, false, sizeof visited); 
     visited[0][0] = true;
 
     /* queue that maintains the cells that are to be explored next */

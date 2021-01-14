@@ -30,6 +30,7 @@ bool validity(int row, int column, int n, int m)
 }
 
 /* arrays which contain the order in which next valid cells are to be explored */
+// right,left,down,up
 int column_Shift[] = {0, 0, 1, -1};
 int row_Shift[] = {1, -1, 0, 0};
 
@@ -38,6 +39,7 @@ int DFS(int **path, int n, int m, Point Food_destination)
 {
     /* matrix to binary_Maze Visited_Cells cells */
     bool visited[n][m];
+    memset(visited, false, sizeof visited); 
     visited[0][0] = true;
 
     /* stack that maintains the cells that are to be explored next */
@@ -51,7 +53,6 @@ int DFS(int **path, int n, int m, Point Food_destination)
 
     while (!stac.empty())
     {
-
         PointList *current = stac.top();
         Point point = current->point;
 
@@ -96,6 +97,7 @@ int BFS(int **path, int n, int m, Point Food_destination)
 {
     /* matrix to binary_Maze Visited cells */
     bool visited[n][m];
+    memset(visited, false, sizeof visited); 
     visited[0][0] = true;
 
     /* queue that maintains the cells that are to be explored next */
@@ -145,7 +147,6 @@ int BFS(int **path, int n, int m, Point Food_destination)
                 que.push(neibhouring_Cell);
             }
         }
-
         NumOfStateExplored++;
     }
     return -1;
@@ -198,7 +199,7 @@ int DFIS(int **path, int n, int m, Point Previous, Point Food_destination, int l
 
         if (
             validity(row, column, n, m) 
-            && path[row][column]
+            && path[row][column] 
             && (!Visited_Cells[row][column] || min_depth[row][column] > Current->point_distance + 1)
         )
         {
@@ -335,7 +336,6 @@ int main(int argc, char *argv[])
 
     ofstream out;
     out.open("output.txt");
-    
 
     out << NumOfStateExplored << endl;
     out << ++distance;
