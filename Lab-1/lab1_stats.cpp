@@ -37,7 +37,7 @@ bool validity(int row, int column, int n, int m)
 
 // down,up,right,left,
 int column_Shift[] = {1,-1, 0, 0};
-int row_Shift[] = {0, 0, 1, -1};;
+int row_Shift[] = {0, 0, 1, -1};
 
 
 
