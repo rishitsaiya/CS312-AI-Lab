@@ -226,9 +226,9 @@ int main(int argc, char *argv[])
     getline(inout_File, firstLine);
     ALGO_CODE = stoi(firstLine);
 
-    // if(ALGO_CODE==3){
-    //     ALGO_CODE = stoi(argv[2]);
-    // }
+    if(ALGO_CODE==3){
+        ALGO_CODE = stoi(argv[2]);
+    }
 
     string eachLine;
     while (getline(inout_File, eachLine))
@@ -323,38 +323,38 @@ int main(int argc, char *argv[])
 
     // getting stats for different mazes :
 
-    // ofstream stats;
-    // stats.open("Stats.txt",std::ios_base::app);
+    ofstream stats;
+    stats.open("Stats.txt",std::ios_base::app);
 
-    // stats << ALGO_CODE << " : \t";
-    // stats << NumOfStateExplored << " ";
-    // stats << ++distance << endl;
-    // stats.close();
+    stats << ALGO_CODE << " : \t";
+    stats << NumOfStateExplored << " ";
+    stats << ++distance << endl;
+    stats.close();
 
     /* printing output to file */
 
-    ofstream out;
-    out.open("output.txt");
+    // ofstream out;
+    // out.open("output.txt",std::ios_base::app);
     
 
-    out << NumOfStateExplored << endl;
-    out << ++distance;
+    // out << NumOfStateExplored << endl;
+    // out << ++distance;
 
-    index = 0;
-    for (int i = 0; i < n; i++)
-    {
-        out << "\n";
-        for (int j = 0; j < m; j++)
-        {
-            if (Path_For_Pacman[i][j] == 1)
-                out << 0;
-            else
-                out << Maze[index];
-            index++;
-        }
-    }
+    // index = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     out << "\n";
+    //     for (int j = 0; j < m; j++)
+    //     {
+    //         if (Path_For_Pacman[i][j] == 1)
+    //             out << 0;
+    //         else
+    //             out << Maze[index];
+    //         index++;
+    //     }
+    // }
 
-    out.close();
+    // out.close();
 
     return 0;
 }
