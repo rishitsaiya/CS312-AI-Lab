@@ -1,12 +1,12 @@
 ## To run : 
 
 ```bash
-    ./run.sh input1.txt input2.txt input3.txt 
+./run.sh input1.txt input2.txt input3.txt 
 ```
 
 ## To Get Stats :
 ```bash
-    ./stats.sh 2x2.txt 4x4.txt 6x6.txt 8x8.txt 10x10.txt 
+./stats.sh 2x2.txt 4x4.txt 6x6.txt 8x8.txt 10x10.txt 
 ```
 
 ### Stats :
