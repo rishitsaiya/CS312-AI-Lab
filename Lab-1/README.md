@@ -1,25 +1,19 @@
 ## To run : 
 
-```
+```bash
     $ ./run.sh input1.txt input2.txt input3.txt 
 ```
 
-## TO Get Stats :
-```
+## To Get Stats :
+```bash
     $ ./stats.sh 2x2.txt 4x4.txt 6x6.txt 8x8.txt 10x10.txt 
-```
-
-### TO DO :
-```
-  1. comments in code
-  2. Report
 ```
 
 ### Stats :
 
-0 for bfs, 1 for dfs, 2 for dfid : Number of states explored "\s" Length of path
+0 for BFS, 1 for DFS, 2 for DFID : Number of states explored "\s" Length of path
 
-#### right,left,down,up
+#### DURL Order
 
 
 ``` 
@@ -49,7 +43,7 @@
 2 : 	20618 86
 ```
 
-#### down,left,up,right
+#### RLDU Order
 
 
 ```
