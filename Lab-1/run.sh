@@ -1,4 +1,4 @@
-g++ 180010015_180010027.cpp
+g++ Group13_Lab_1.cpp
 
 if [ $# -eq 0 ]
   then
