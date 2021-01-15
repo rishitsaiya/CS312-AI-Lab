@@ -6,23 +6,20 @@ int **Path_For_Pacman; // matrix to binary_Maze the final path
 
 int NumOfStateExplored = 0; // number of states explored before reaching the goal
 
-/* struct to binary_Maze coordinates of a cell */
-struct Point
-{
+/* structure to binary_Maze coordinates of a cell */
+struct Point{
     int x, y;
 };
 
-/* struct which contains the coordinates, distance from source and parent of the cell */
-struct PointList
-{
+/* structure which contains the coordinates, distance from source and parent of the cell */
+struct PointList{
     Point point;
     int point_distance;
     PointList *pointer;
 };
 
 /* function to check if a cell is valid */
-bool validity(int row, int column, int n, int m)
-{
+bool validity(int row, int column, int n, int m){
     if ((row >= 0) && (row < n) && (column >= 0) && (column < m))
         return true;
     else
@@ -30,13 +27,13 @@ bool validity(int row, int column, int n, int m)
 }
 
 /* arrays which contain the order in which next valid cells are to be explored */
-// right,left,down,up
-int column_Shift[] = {0, 0, 1, -1};
+// Order: DURL - Down > Up > Right > Left
 int row_Shift[] = {1, -1, 0, 0};
+int column_Shift[] = {0, 0, 1, -1};
 
 /* function to implement depth first search */
-int DFS(int **path, int n, int m, Point Food_destination)
-{
+int DFS(int **path, int n, int m, Point Food_destination){
+    
     /* matrix to binary_Maze Visited_Cells cells */
     bool visited[n][m];
     memset(visited, false, sizeof visited); 
@@ -51,18 +48,16 @@ int DFS(int **path, int n, int m, Point Food_destination)
     start->pointer = NULL;
     stac.push(start);
 
-    while (!stac.empty())
-    {
+/*Checking if the stack is empty or not and pointing it to current cell*/
+    while (!stac.empty()){
         PointList *current = stac.top();
         Point point = current->point;
 
         /* checking if the current cell is goal, storing the path and returning the path distance */
-        if (point.x == Food_destination.x && point.y == Food_destination.y)
-        {
+        if (point.x == Food_destination.x && point.y == Food_destination.y){
             NumOfStateExplored++;
             PointList *Source = current;
-            while (Source->pointer != NULL)
-            {
+            while (Source->pointer != NULL){
                 Path_For_Pacman[Source->point.x][Source->point.y] = 1;
                 Source = Source->pointer;
             }
@@ -72,12 +67,10 @@ int DFS(int **path, int n, int m, Point Food_destination)
 
         /* checking for valid adjacent cells that can be explored and pushing them to the stack */
         stac.pop();
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++){
             int hori = point.x + row_Shift[i];
             int verti = point.y + column_Shift[i];
-            if (validity(hori, verti, n, m) && path[hori][verti] && !visited[hori][verti])
-            {
+            if (validity(hori, verti, n, m) && path[hori][verti] && !visited[hori][verti]){
                 visited[hori][verti] = true;
                 PointList *neibhouring_Cell = new PointList;
                 neibhouring_Cell->point.x = hori;
@@ -93,8 +86,8 @@ int DFS(int **path, int n, int m, Point Food_destination)
 }
 
 /* function to implement breadth first search */
-int BFS(int **path, int n, int m, Point Food_destination)
-{
+int BFS(int **path, int n, int m, Point Food_destination){
+    
     /* matrix to binary_Maze Visited cells */
     bool visited[n][m];
     memset(visited, false, sizeof visited); 
@@ -109,19 +102,17 @@ int BFS(int **path, int n, int m, Point Food_destination)
     start->pointer = NULL;
     que.push(start);
 
-    while (!que.empty())
-    {
+/*Checking if the queue is empty or not and pointing it to current cell*/
+    while (!que.empty()){
 
         PointList *current = que.front();
         Point point = current->point;
 
         /* checking if the current cell is goal, storing the path and returning the path distance */
-        if (point.x == Food_destination.x && point.y == Food_destination.y)
-        {
+        if (point.x == Food_destination.x && point.y == Food_destination.y){
             NumOfStateExplored++;
             PointList *Source = current;
-            while (Source->pointer != NULL)
-            {
+            while (Source->pointer != NULL){
                 Path_For_Pacman[Source->point.x][Source->point.y] = 1;
                 Source = Source->pointer;
             }
@@ -129,15 +120,13 @@ int BFS(int **path, int n, int m, Point Food_destination)
             return current->point_distance;
         }
 
-        /* checking for valid adjacent cells that can be explored and pushing them to the queue */
+/* checking for valid adjacent cells that can be explored and pushing them to the queue */
 
         que.pop();
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++){
             int hori = point.x + row_Shift[i];
             int verti = point.y + column_Shift[i];
-            if (validity(hori, verti, n, m) && path[hori][verti] && !visited[hori][verti])
-            {
+            if (validity(hori, verti, n, m) && path[hori][verti] && !visited[hori][verti]){
                 visited[hori][verti] = true;
                 PointList *neibhouring_Cell = new PointList;
                 neibhouring_Cell->point.x = hori;
@@ -157,8 +146,7 @@ int BFS(int **path, int n, int m, Point Food_destination)
 bool **Visited_Cells; // matrix to binary_Maze Visited cells
 int **min_depth;      // matrix to binary_Maze the minimum depth at which the cells are Visited
 
-int DFIS(int **path, int n, int m, Point Previous, Point Food_destination, int limit, PointList *prev_ptr)
-{
+int DFIS(int **path, int n, int m, Point Previous, Point Food_destination, int limit, PointList *prev_ptr){
     /* if depth limit is reached, returns -1 */
     if (limit == 0)
         return -1;
@@ -172,24 +160,21 @@ int DFIS(int **path, int n, int m, Point Previous, Point Food_destination, int l
     min_depth[Previous.x][Previous.y] = Current->point_distance;
 
     /* checking if the current cell is goal, storing the path and returning the path distance */
-    if (Previous.x == Food_destination.x && Previous.y == Food_destination.y)
-    {
+    if (Previous.x == Food_destination.x && Previous.y == Food_destination.y){
         PointList *Prev = Current;
-        while (Prev->pointer != NULL)
-        {
+        while (Prev->pointer != NULL){
             Path_For_Pacman[Prev->point.x][Prev->point.y] = 1;
             Prev = Prev->pointer;
         }
         Path_For_Pacman[Prev->point.x][Prev->point.y] = 1;
         return Current->point_distance;
     }
-
+/*Increamenting the states explored and marking the visiting cells in maze*/
     NumOfStateExplored++;
     Visited_Cells[Previous.x][Previous.y] = true;
 
     /* checking for valid adjacent cells that can be explored */
-    for (int i = 0; i < 4; i++)
-    {
+    for (int i = 0; i < 4; i++){
         int row = Previous.x + row_Shift[i];
         int column = Previous.y + column_Shift[i];
 
@@ -201,8 +186,7 @@ int DFIS(int **path, int n, int m, Point Previous, Point Food_destination, int l
             validity(row, column, n, m) 
             && path[row][column] 
             && (!Visited_Cells[row][column] || min_depth[row][column] > Current->point_distance + 1)
-        )
-        {
+        ){
             int dist = DFIS(path, n, m, curr_point, Food_destination, limit - 1, Current);
 
             if (dist > -1)
@@ -212,8 +196,7 @@ int DFIS(int **path, int n, int m, Point Previous, Point Food_destination, int l
     return -1;
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
     int ALGO_CODE; // defines the type of search to be implemented
 
     vector<char> Maze; // binary_Mazes contents of Maze
@@ -223,26 +206,20 @@ int main(int argc, char *argv[])
 
     ifstream inout_File(argv[1]); // opening Binary_Maze file stream and reading Binary_Maze file
 
+/*String input for algorithm code*/
     string firstLine;
     getline(inout_File, firstLine);
     ALGO_CODE = stoi(firstLine);
 
-    // if(ALGO_CODE==3){
-    //     ALGO_CODE = stoi(argv[2]);
-    // }
-
+/*Maze input*/
     string eachLine;
-    while (getline(inout_File, eachLine))
-    {
+    while (getline(inout_File, eachLine)){
         m = 0;
-        // cout << eachLine + "\n";
 
-        while (char ch = eachLine[m])
-        {
+        while (char ch = eachLine[m]){
             Maze.push_back(ch);
 
-            if (ch == '*')
-            {
+            if (ch == '*'){
                 food_X = n, food_Y = m;
             }
             m++; // column size
@@ -253,17 +230,14 @@ int main(int argc, char *argv[])
     Binary_Maze = new int *[m];     // creating matrix to contain maze in binary form
     Path_For_Pacman = new int *[m]; // creating matrix to binary_Maze the final path
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++){
         Binary_Maze[i] = new int[m];
         Path_For_Pacman[i] = new int[m];
     }
 
     int index = 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
             if (Maze[index] == ' ')
                 Binary_Maze[i][j] = 1;
             else
@@ -280,21 +254,18 @@ int main(int argc, char *argv[])
     Point Food_destination = {food_X, food_Y};
     int distance = -1; // distance of goal from source
 
-    if (!Binary_Maze[0][0] || !Binary_Maze[Food_destination.x][Food_destination.y])
-    {
+    if (!Binary_Maze[0][0] || !Binary_Maze[Food_destination.x][Food_destination.y]){
         distance = -1;
     }
-    else if (ALGO_CODE == 0) /* BFS */
-    {
+    else if (ALGO_CODE == 0) /* BFS */{
         distance = BFS(Binary_Maze, n, m, Food_destination);
     }
-    else if (ALGO_CODE == 1) /* DFS */
-    {
+    else if (ALGO_CODE == 1) /* DFS */{
         distance = DFS(Binary_Maze, n, m, Food_destination);
     }
-    else if (ALGO_CODE == 2) /* DFIS */
-    {
+    else if (ALGO_CODE == 2) /* DFIS */{
 
+/*Boundary Condition for depth and visited cells*/
         Visited_Cells = new bool *[m];
         min_depth = new int *[m];
 
@@ -307,12 +278,10 @@ int main(int argc, char *argv[])
         Source->point_distance = 0;
         Source->pointer = NULL;
 
-        while (distance == -1)
-        {
+        while (distance == -1){
             limit++;
 
-            for (int i = 0; i < n; i++)
-            {
+            for (int i = 0; i < n; i++){
                 Visited_Cells[i] = new bool[m];
                 min_depth[i] = new int[m]; //iteratively increase depth until goal is found
             }
@@ -322,30 +291,20 @@ int main(int argc, char *argv[])
         distance--;
     }
 
-    // getting stats for different mazes :
-
-    // ofstream stats;
-    // stats.open("Stats.txt",std::ios_base::app);
-
-    // stats << ALGO_CODE << " : \t";
-    // stats << NumOfStateExplored << " ";
-    // stats << ++distance << endl;
-    // stats.close();
-
-    /* printing output to file */
+    /* Printing output to file */
 
     ofstream out;
     out.open("output.txt");
 
+/* Output no.of states and path distance */
     out << NumOfStateExplored << endl;
     out << ++distance;
 
+/* Printing maze to output file */
     index = 0;
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++){
         out << "\n";
-        for (int j = 0; j < m; j++)
-        {
+        for (int j = 0; j < m; j++){
             if (Path_For_Pacman[i][j] == 1)
                 out << 0;
             else
