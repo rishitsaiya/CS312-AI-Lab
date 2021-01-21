@@ -1,1 +1,0 @@
-python3 aco_optimized.py $1
