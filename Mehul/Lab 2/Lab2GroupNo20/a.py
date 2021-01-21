@@ -37,7 +37,7 @@ def generate_constraints(n, i, j):
     l = list(dict.fromkeys(l)) 
     l1 = [0, 1, 2, 3, 4]
     for i in l:
-        l1.remove(i);
+        l1.remove(i)
     return l1
 
 def generate_full(a):
@@ -148,7 +148,7 @@ def main_BFS():
         l = []
         for j in i:
             if j == "\n":
-                break;
+                break
             l.append(int(j))
         #print (i, end = "")
         a.append(l)
@@ -183,7 +183,7 @@ def main_hill_climb_2():
         l = []
         for j in i:
             if j == "\n":
-                break;
+                break
             l.append(int(j))
         #print (i, end = "")
         a.append(l)
