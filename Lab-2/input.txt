@@ -1,0 +1,9 @@
+Goal State is :
+[3, 2, 4]
+[5]
+[6, 1]
+
+Initial State is :
+[]
+[]
+[3, 6, 1, 2, 5, 4]
