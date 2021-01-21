@@ -1,0 +1,1 @@
+python3 ant_colony.py $1
