@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
-public class Main {
+public class Group12_Lab_2 {
 
     // store all intermediate states
     public static ArrayList<BlockWorld_State> All_States = new ArrayList<BlockWorld_State>();
@@ -30,7 +30,7 @@ public class Main {
             heuristic_fun = 3;
         }
 
-        //  Reading input file & storing Goal State & initial states
+        // Reading input file & storing Goal State & initial states
         Scanner myReader = null;
         try {
 
@@ -40,7 +40,6 @@ public class Main {
                 System.out.println("input file is not available");
                 System.exit(0);
             }
-            
 
             while (myReader.hasNextLine()) {
                 myReader.nextLine();
@@ -173,22 +172,19 @@ public class Main {
             i.PrintBlockWorld_State();
         }
 
-        if(isSolution==false){
+        if (isSolution == false) {
             System.out.print("\nSearch is struck in local maxima");
         }
 
         System.out.println("\nStates Explored : " + All_States.size());
         System.out.println("Total execution time (in Mili-Seconds) : " + timeElapsed);
 
-
-
-
     }
 
     // implementation of Best for search
     static void BestFS(BlockWorld_State intermediate_State) {
 
-        //  Considering possible all 6 intermediate states from any earlier state
+        // Considering possible all 6 intermediate states from any earlier state
         BlockWorld_State temp1 = new BlockWorld_State();
         BlockWorld_State temp2 = new BlockWorld_State();
         BlockWorld_State temp3 = new BlockWorld_State();
@@ -203,7 +199,8 @@ public class Main {
         BlockWorld_State.copyStates(temp5, intermediate_State);
         BlockWorld_State.copyStates(temp6, intermediate_State);
 
-        // if these 6 intermediate states are valid & unexplored, they will be added in priority queue
+        // if these 6 intermediate states are valid & unexplored, they will be added in
+        // priority queue
 
         if (intermediate_State.S1.size() > 0) {
             temp1.S2.push(temp1.S1.pop());
@@ -249,12 +246,12 @@ public class Main {
         // considering top element of max priority queue
         intermediate_State = MaxPQueue.poll();
 
-    
         if (!All_States.contains(intermediate_State)) {
             All_States.add(intermediate_State);
         }
 
-        // if program finds goal state, program will stop else it will explore next states
+        // if program finds goal state, program will stop else it will explore next
+        // states
         if (intermediate_State.equals(goal_State)) {
             // intermediate_State.PrintBlockWorld_State();
         } else {
@@ -265,10 +262,12 @@ public class Main {
 
     static void HillTop(BlockWorld_State intermediate_State) {
 
-        // for Hill Climbing, max priority queue need to be cleared before adding new states
+        // for Hill Climbing, max priority queue need to be cleared before adding new
+        // states
         MaxPQueue.clear();
 
-        //  Considering possible all 6 intermediate states from any earlier state & current state (temp)
+        // Considering possible all 6 intermediate states from any earlier state &
+        // current state (temp)
 
         BlockWorld_State temp = new BlockWorld_State();
         BlockWorld_State temp1 = new BlockWorld_State();
@@ -286,7 +285,8 @@ public class Main {
         BlockWorld_State.copyStates(temp5, intermediate_State);
         BlockWorld_State.copyStates(temp6, intermediate_State);
 
-        // if these 6 intermediate states are valid & unexplored, they will be added in priority queue
+        // if these 6 intermediate states are valid & unexplored, they will be added in
+        // priority queue
         if (intermediate_State.S1.size() > 0) {
             temp1.S2.push(temp1.S1.pop());
             if (!All_States.contains(temp1) && !MaxPQueue.contains(temp1)) {
@@ -330,7 +330,7 @@ public class Main {
 
         temp = MaxPQueue.poll();
 
-        //  if program finds valid next state it will continue else program will stop
+        // if program finds valid next state it will continue else program will stop
         if (temp.heuristic_Value > intermediate_State.heuristic_Value) {
 
             intermediate_State = temp;
@@ -381,7 +381,7 @@ class BlockWorld_State {
         state1.heuristic_Value = state2.heuristic_Value;
     }
 
-    // .equals function for comparing objects 
+    // .equals function for comparing objects
     @Override
     public boolean equals(Object obj) {
 
@@ -396,9 +396,11 @@ class BlockWorld_State {
 
         // 1st heuristic Function :
         /*
-            In intermediate state, depending on number matching-positions of blocks with goal state heuristic value will be higher. (here all matching-positions have same weightage-1000)
-        */
-        if (Main.heuristic_fun == 1) {
+         * In intermediate state, depending on number matching-positions of blocks with
+         * goal state heuristic value will be higher. (here all matching-positions have
+         * same weightage-1000)
+         */
+        if (Group12_Lab_2.heuristic_fun == 1) {
             int heuristic_value_temp = 0;
 
             for (int i = 0; i < goal_State.S1.size(); i++) {
@@ -412,7 +414,7 @@ class BlockWorld_State {
                 }
 
                 if (temp1 == temp2) {
-                    heuristic_value_temp+=1000;
+                    heuristic_value_temp += 1000;
                 }
             }
 
@@ -427,7 +429,7 @@ class BlockWorld_State {
                 }
 
                 if (goal_State.S2.elementAt(i) == temp2) {
-                    heuristic_value_temp+=1000;
+                    heuristic_value_temp += 1000;
                 }
 
             }
@@ -445,7 +447,7 @@ class BlockWorld_State {
                 }
 
                 if (temp1 == temp2) {
-                    heuristic_value_temp+=1000;
+                    heuristic_value_temp += 1000;
                 }
 
             }
@@ -456,9 +458,12 @@ class BlockWorld_State {
         }
         // 2nd heuristic Function :
         /*
-            In intermediate state, depending on number matching-positions of blocks with goal state + for non-matching positions if block is in same as goal-stack, heuristic value will be higher. (here all matching-positions have weightage-1000 & if block is in same goal-stack will have weigtage of 100)
-        */
-        else if (Main.heuristic_fun == 2) {
+         * In intermediate state, depending on number matching-positions of blocks with
+         * goal state + for non-matching positions if block is in same as goal-stack,
+         * heuristic value will be higher. (here all matching-positions have
+         * weightage-1000 & if block is in same goal-stack will have weigtage of 100)
+         */
+        else if (Group12_Lab_2.heuristic_fun == 2) {
             int heuristic_value_temp = 0;
 
             for (int i = 0; i < goal_State.S1.size(); i++) {
@@ -528,9 +533,11 @@ class BlockWorld_State {
         }
         // 3rd heuristic Function :
         /*
-            In intermediate state, if base of stacks matches, it will check further add gives higher heuristic value otherwise it will skip ( for each block matching from base to goal-state will have same weightage of 1000)
-        */
-        else if (Main.heuristic_fun == 3) {
+         * In intermediate state, if base of stacks matches, it will check further add
+         * gives higher heuristic value otherwise it will skip ( for each block matching
+         * from base to goal-state will have same weightage of 1000)
+         */
+        else if (Group12_Lab_2.heuristic_fun == 3) {
             int heuristic_value_temp = 0;
 
             for (int i = 0; i < goal_State.S1.size(); i++) {

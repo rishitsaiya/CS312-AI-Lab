@@ -1,4 +1,4 @@
-javac Main.java
+javac Group12_Lab_2.java
 
 # ts=$(date +%s%N)
 
@@ -13,9 +13,11 @@ if [ $# -eq 0 ]
             4. output.txt    - select output file
     "
     else 
-        java Main $1 $2 $3 > $4
+        java Group12_Lab_2 $1 $2 $3 > $4
         # echo $((($(date +%s%N) - $ts)/1000000))' Mili-Seconds'
 
 fi
 
-echo "Successful..."
+echo "
+  Successful ...
+"
