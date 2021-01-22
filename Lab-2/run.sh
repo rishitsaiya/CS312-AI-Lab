@@ -5,13 +5,12 @@ ts=$(date +%s%N)
 if [ $# -eq 0 ]
   then
     echo "
+        Format - 4 command line arguments
     
-        Four command line arguments
-    
-            # input.txt     - input file
-            # BFS/HillTop   - Best for search or Hill Climbing
-            # 1/2/3         - Heuristic function
-            # output.txt    - output file
+            1. input.txt     - select input file
+            2. BFS/HillTop   - select one of - Best for search or Hill Climbing
+            3. 1/2/3         - select one of the Heuristic function among
+            4. output.txt    - select output file
     "
     else 
         java Main $1 $2 $3 > $4
