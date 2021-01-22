@@ -5,7 +5,7 @@ javac Main.java
 #     echo "No arguments supplied"
 # fi
 
-java Main input.txt HillTop 2 > output.txt
+java Main input.txt BFS 2 > output.txt
 
 # input.txt - input file
 # BFS or HillTop

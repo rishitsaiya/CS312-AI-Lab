@@ -4,10 +4,13 @@ import java.io.FileNotFoundException;
 
 public class Main {
 
+    // store all intermediate states
     public static ArrayList<BlockWorld_State> All_States = new ArrayList<BlockWorld_State>();
 
+    // Goal State
     public static BlockWorld_State goal_State = new BlockWorld_State();
 
+    // priority Queue to select state with best heuristic value
     public static PriorityQueue<BlockWorld_State> MaxPQueue = new PriorityQueue<BlockWorld_State>(
             new SortByHeuristicValue());
 
@@ -18,6 +21,7 @@ public class Main {
 
         BlockWorld_State initial_State = new BlockWorld_State();
 
+        // reading input file
         File input = new File(args[0]);
 
         try {
@@ -26,6 +30,7 @@ public class Main {
             heuristic_fun = 3;
         }
 
+        //  Reading input file & storing Goal State & initial states
         Scanner myReader;
         try {
             myReader = new Scanner(input);
@@ -133,26 +138,41 @@ public class Main {
             e.printStackTrace();
         }
 
-        // initial_State.PrintBlockWorld_State();
-        // goal_State.PrintBlockWorld_State();
+        System.out.print("Initial State :");
+        initial_State.PrintBlockWorld_State();
+        System.out.print("\nGoal State :");
+        goal_State.PrintBlockWorld_State();
+        System.out.println();
 
         All_States.add(initial_State);
+
+        // Selecting Besy for search or Hill Climbing according to inputs
         if (args[1].equals("BFS")) {
             BestFS(initial_State);
+            isSolution = true;
+            System.out.print("BFS:");
         } else {
             HillTop(initial_State);
+            System.out.print("Hill Climbing:");
         }
 
-        System.out.println(All_States.size());
+        // System.out.println("States Explored : " + All_States.size());
 
+        // printing all intermediate states
         for (BlockWorld_State i : All_States) {
             i.PrintBlockWorld_State();
         }
 
+        if(isSolution==false){
+            System.out.print("\nSearch is struck in local maxima");
+        }
+
     }
 
+    // implementation of Best for search
     static void BestFS(BlockWorld_State intermediate_State) {
 
+        //  Considering possible all 6 intermediate states from any earlier state
         BlockWorld_State temp1 = new BlockWorld_State();
         BlockWorld_State temp2 = new BlockWorld_State();
         BlockWorld_State temp3 = new BlockWorld_State();
@@ -166,6 +186,8 @@ public class Main {
         BlockWorld_State.copyStates(temp4, intermediate_State);
         BlockWorld_State.copyStates(temp5, intermediate_State);
         BlockWorld_State.copyStates(temp6, intermediate_State);
+
+        // if these 6 intermediate states are valid & unexplored, they will be added in priority queue
 
         if (intermediate_State.S1.size() > 0) {
             temp1.S2.push(temp1.S1.pop());
@@ -208,12 +230,15 @@ public class Main {
             }
         }
 
+        // considering top element of max priority queue
         intermediate_State = MaxPQueue.poll();
 
+    
         if (!All_States.contains(intermediate_State)) {
             All_States.add(intermediate_State);
         }
 
+        // if program finds goal state, program will stop else it will explore next states
         if (intermediate_State.equals(goal_State)) {
             // intermediate_State.PrintBlockWorld_State();
         } else {
@@ -224,8 +249,10 @@ public class Main {
 
     static void HillTop(BlockWorld_State intermediate_State) {
 
-        // intermediate_State.PrintBlockWorld_State();
+        // for Hill Climbing, max priority queue need to be cleared before adding new states
         MaxPQueue.clear();
+
+        //  Considering possible all 6 intermediate states from any earlier state & current state (temp)
 
         BlockWorld_State temp = new BlockWorld_State();
         BlockWorld_State temp1 = new BlockWorld_State();
@@ -243,6 +270,7 @@ public class Main {
         BlockWorld_State.copyStates(temp5, intermediate_State);
         BlockWorld_State.copyStates(temp6, intermediate_State);
 
+        // if these 6 intermediate states are valid & unexplored, they will be added in priority queue
         if (intermediate_State.S1.size() > 0) {
             temp1.S2.push(temp1.S1.pop());
             if (!All_States.contains(temp1) && !MaxPQueue.contains(temp1)) {
@@ -286,6 +314,7 @@ public class Main {
 
         temp = MaxPQueue.poll();
 
+        //  if program finds valid next state it will continue else program will stop
         if (temp.heuristic_Value > intermediate_State.heuristic_Value) {
 
             intermediate_State = temp;
@@ -307,6 +336,7 @@ public class Main {
     }
 }
 
+// Comparator for max priority queue (for comparing class-objects)
 class SortByHeuristicValue implements Comparator<BlockWorld_State> {
     public int compare(BlockWorld_State s1, BlockWorld_State s2) {
         if (s1.heuristic_Value > s2.heuristic_Value)
@@ -317,12 +347,15 @@ class SortByHeuristicValue implements Comparator<BlockWorld_State> {
     }
 }
 
+// class for each state
 class BlockWorld_State {
 
+    // three stacks of each state
     Stack<Integer> S1 = new Stack<Integer>();
     Stack<Integer> S2 = new Stack<Integer>();
     Stack<Integer> S3 = new Stack<Integer>();
 
+    // heuristic_Value for each state calculated from heuristic function
     int heuristic_Value = 0;
 
     static void copyStates(BlockWorld_State state1, BlockWorld_State state2) {
@@ -332,6 +365,7 @@ class BlockWorld_State {
         state1.heuristic_Value = state2.heuristic_Value;
     }
 
+    // .equals function for comparing objects 
     @Override
     public boolean equals(Object obj) {
 
@@ -341,8 +375,13 @@ class BlockWorld_State {
         return isequal;
     }
 
+    // multiple heuristic Functions it will select one of these according to input
     int heuristic_Function(BlockWorld_State goal_State) {
 
+        // 1st heuristic Function :
+        /*
+            In intermediate state, depending on number matching-positions of blocks with goal state heuristic value will be higher. (here all matching-positions have same weightage-1000)
+        */
         if (Main.heuristic_fun == 1) {
             int heuristic_value_temp = 0;
 
@@ -357,7 +396,7 @@ class BlockWorld_State {
                 }
 
                 if (temp1 == temp2) {
-                    heuristic_value_temp++;
+                    heuristic_value_temp+=1000;
                 }
             }
 
@@ -372,7 +411,7 @@ class BlockWorld_State {
                 }
 
                 if (goal_State.S2.elementAt(i) == temp2) {
-                    heuristic_value_temp++;
+                    heuristic_value_temp+=1000;
                 }
 
             }
@@ -390,7 +429,7 @@ class BlockWorld_State {
                 }
 
                 if (temp1 == temp2) {
-                    heuristic_value_temp++;
+                    heuristic_value_temp+=1000;
                 }
 
             }
@@ -398,7 +437,12 @@ class BlockWorld_State {
             heuristic_Value = heuristic_value_temp;
 
             return heuristic_value_temp;
-        } else if (Main.heuristic_fun == 2) {
+        }
+        // 2nd heuristic Function :
+        /*
+            In intermediate state, depending on number matching-positions of blocks with goal state + for non-matching positions if block is in same as goal-stack, heuristic value will be higher. (here all matching-positions have weightage-1000 & if block is in same goal-stack will have weigtage of 100)
+        */
+        else if (Main.heuristic_fun == 2) {
             int heuristic_value_temp = 0;
 
             for (int i = 0; i < goal_State.S1.size(); i++) {
@@ -465,7 +509,12 @@ class BlockWorld_State {
             heuristic_Value = heuristic_value_temp;
 
             return heuristic_value_temp;
-        } else if (Main.heuristic_fun == 3) {
+        }
+        // 3rd heuristic Function :
+        /*
+            In intermediate state, if base of stacks matches, it will check further add gives higher heuristic value otherwise it will skip ( for each block matching from base to goal-state will have same weightage of 1000)
+        */
+        else if (Main.heuristic_fun == 3) {
             int heuristic_value_temp = 0;
 
             for (int i = 0; i < goal_State.S1.size(); i++) {
@@ -531,10 +580,11 @@ class BlockWorld_State {
 
     }
 
+    // to print any state
     public void PrintBlockWorld_State() {
 
         System.out.println();
-        System.out.println("Heuristic Value : " + this.heuristic_Value);
+        // System.out.println("Heuristic Value : " + this.heuristic_Value);
 
         System.out.print("[");
         for (int l = 0; l < S1.size(); l++) {
