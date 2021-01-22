@@ -1,6 +1,6 @@
 javac Main.java
 
-ts=$(date +%s%N)
+# ts=$(date +%s%N)
 
 if [ $# -eq 0 ]
   then
@@ -14,6 +14,8 @@ if [ $# -eq 0 ]
     "
     else 
         java Main $1 $2 $3 > $4
-        echo $((($(date +%s%N) - $ts)/1000000))' Mili-Seconds'
+        # echo $((($(date +%s%N) - $ts)/1000000))' Mili-Seconds'
 
 fi
+
+echo "Successful..."

@@ -1,6 +1,6 @@
 import java.util.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.time.*;
 
 public class Main {
 
@@ -31,9 +31,16 @@ public class Main {
         }
 
         //  Reading input file & storing Goal State & initial states
-        Scanner myReader;
+        Scanner myReader = null;
         try {
-            myReader = new Scanner(input);
+
+            try {
+                myReader = new Scanner(input);
+            } catch (Exception e) {
+                System.out.println("input file is not available");
+                System.exit(0);
+            }
+            
 
             while (myReader.hasNextLine()) {
                 myReader.nextLine();
@@ -134,7 +141,7 @@ public class Main {
             }
             myReader.close();
 
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -146,6 +153,8 @@ public class Main {
 
         All_States.add(initial_State);
 
+        Instant start = Instant.now();
+
         // Selecting Besy for search or Hill Climbing according to inputs
         if (args[1].equals("BFS")) {
             BestFS(initial_State);
@@ -156,6 +165,8 @@ public class Main {
             System.out.print("Hill Climbing:");
         }
 
+        Instant finish = Instant.now();
+        long timeElapsed = Duration.between(start, finish).toMillis();
 
         // printing all intermediate states
         for (BlockWorld_State i : All_States) {
@@ -166,7 +177,10 @@ public class Main {
             System.out.print("\nSearch is struck in local maxima");
         }
 
-        System.out.print("\nStates Explored : " + All_States.size());
+        System.out.println("\nStates Explored : " + All_States.size());
+        System.out.println("Total execution time (in Mili-Seconds) : " + timeElapsed);
+
+
 
 
     }
