@@ -156,7 +156,6 @@ public class Main {
             System.out.print("Hill Climbing:");
         }
 
-        // System.out.println("States Explored : " + All_States.size());
 
         // printing all intermediate states
         for (BlockWorld_State i : All_States) {
@@ -166,6 +165,9 @@ public class Main {
         if(isSolution==false){
             System.out.print("\nSearch is struck in local maxima");
         }
+
+        System.out.print("\nStates Explored : " + All_States.size());
+
 
     }
 

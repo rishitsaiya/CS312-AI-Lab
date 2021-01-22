@@ -1,12 +1,20 @@
 javac Main.java
 
-# if [ $# -eq 0 ]
-#   then
-#     echo "No arguments supplied"
-# fi
+ts=$(date +%s%N)
 
-java Main input.txt BFS 2 > output.txt
+if [ $# -eq 0 ]
+  then
+    echo "
+    
+        Four command line arguments
+    
+            # input.txt     - input file
+            # BFS/HillTop   - Best for search or Hill Climbing
+            # 1/2/3         - Heuristic function
+            # output.txt    - output file
+    "
+    else 
+        java Main $1 $2 $3 > $4
+        echo $((($(date +%s%N) - $ts)/1000000))' Mili-Seconds'
 
-# input.txt - input file
-# BFS or HillTop
-# Heuristic function - 1/2/3
+fi
