@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
-public class Group12_Lab_2 {
+public class Group12{
 
     // store all intermediate states
     public static ArrayList<BlockWorld_State> All_States = new ArrayList<BlockWorld_State>();
@@ -400,7 +400,7 @@ class BlockWorld_State {
          * goal state heuristic value will be higher. (here all matching-positions have
          * same weightage-1000)
          */
-        if (Group12_Lab_2.heuristic_fun == 1) {
+        if (Group12.heuristic_fun == 1) {
             int heuristic_value_temp = 0;
 
             for (int i = 0; i < goal_State.S1.size(); i++) {
@@ -463,7 +463,7 @@ class BlockWorld_State {
          * heuristic value will be higher. (here all matching-positions have
          * weightage-1000 & if block is in same goal-stack will have weigtage of 100)
          */
-        else if (Group12_Lab_2.heuristic_fun == 2) {
+        else if (Group12.heuristic_fun == 2) {
             int heuristic_value_temp = 0;
 
             for (int i = 0; i < goal_State.S1.size(); i++) {
@@ -537,7 +537,7 @@ class BlockWorld_State {
          * gives higher heuristic value otherwise it will skip ( for each block matching
          * from base to goal-state will have same weightage of 1000)
          */
-        else if (Group12_Lab_2.heuristic_fun == 3) {
+        else if (Group12.heuristic_fun == 3) {
             int heuristic_value_temp = 0;
 
             for (int i = 0; i < goal_State.S1.size(); i++) {
