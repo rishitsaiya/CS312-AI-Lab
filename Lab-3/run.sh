@@ -8,7 +8,7 @@ python3 4-SAT.py
 
 # [['A', 'B', 'C'], ['A', 'C', 'd'], ['B', 'a', 'd'], ['D', 'a', 'c'], ['a', 'b', 'd']]
 
-python3 temp.py
+python3 temp.py > output.txt
 
 
 # if [ $# -eq 0 ]
