@@ -1,23 +1,24 @@
-[['A', 'b', 'c'], ['C', 'D', 'a'], ['D', 'a', 'c'], ['a', 'b', 'd'], ['b', 'c', 'd']]
-Initial state : {'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
-Heuristic Value : 5
+[['A', 'B', 'c'], ['A', 'c', 'd'], ['B', 'C', 'd'], ['B', 'a', 'c'], ['a', 'c', 'd']]
+Initial state : {'a': 1, 'b': 1, 'c': 0, 'd': 0, 'A': 0, 'B': 0, 'C': 1, 'D': 1}
+Heuristic Value : 3
 
-------------Beam Search (beam length-3)-------------
+------------Beam Search (beam length-2)-------------
 
-States Explored : 1
+States Explored : 9
+{'a': 1, 'b': 1, 'c': 0, 'd': 0, 'A': 0, 'B': 0, 'C': 1, 'D': 1}
+{'a': 1, 'b': 1, 'c': 1, 'd': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 1}
 {'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
 
-------------Beam Search (beam length-4)-------------
+-------------Tabu search (tabu tenure-2)------------
 
-States Explored : 1
-{'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
-
--------------Tabu search (tabu tenure-4)------------
-
-States Explored : 1
-{'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
+States Explored : 8
+{'a': 1, 'b': 1, 'c': 0, 'd': 0, 'A': 0, 'B': 0, 'C': 1, 'D': 1}
+{'a': 1, 'b': 1, 'c': 0, 'd': 1, 'A': 0, 'B': 0, 'C': 1, 'D': 0}
+{'a': 1, 'b': 0, 'c': 0, 'd': 1, 'A': 0, 'B': 1, 'C': 1, 'D': 0}
 
 -----------Variable neighborhood descent--------------
 
-States explored : 1
-{'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
+States explored : 8
+{'a': 1, 'b': 1, 'c': 0, 'd': 0, 'A': 0, 'B': 0, 'C': 1, 'D': 1}
+{'a': 1, 'b': 1, 'c': 0, 'd': 1, 'A': 0, 'B': 0, 'C': 1, 'D': 0}
+{'a': 1, 'b': 0, 'c': 0, 'd': 1, 'A': 0, 'B': 1, 'C': 1, 'D': 0}

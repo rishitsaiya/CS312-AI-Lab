@@ -315,34 +315,82 @@ def variableNeighbor(Expression, intermediateState, b, step):
 
 # %%
 
-print("\n------------Beam Search (beam length-3)-------------\n")
+# print("\n------------Beam Search (beam length-1)-------------\n")
+# statesExplored.clear()
+# finalState, b1p = beamSearch(Expression, intialState, 1, 1)
+# if not finalState in statesExplored:
+#     statesExplored.append(finalState)
+# print("States Explored : " + b1p)
+# for e in statesExplored:
+#     print(e)
+
+print("\n------------Beam Search (beam length-2)-------------\n")
 statesExplored.clear()
-finalState, b3p = beamSearch(Expression, intialState, 3, 1)
+finalState, b2p = beamSearch(Expression, intialState, 2, 1)
 if not finalState in statesExplored:
     statesExplored.append(finalState)
-print("States Explored : " + b3p)
+print("States Explored : " + b2p)
 for e in statesExplored:
     print(e)
 
+# print("\n------------Beam Search (beam length-3)-------------\n")
+# statesExplored.clear()
+# finalState, b3p = beamSearch(Expression, intialState, 3, 1)
+# if not finalState in statesExplored:
+#     statesExplored.append(finalState)
+# print("States Explored : " + b3p)
+# for e in statesExplored:
+#     print(e)
 
-print("\n------------Beam Search (beam length-4)-------------\n")
-statesExplored.clear()
-finalState, b4p = beamSearch(Expression, intialState, 4, 1)
-if not finalState in statesExplored:
-    statesExplored.append(finalState)
-print("States Explored : " + b4p)
-for e in statesExplored:
-    print(e)
 
-print("\n-------------Tabu search (tabu tenure-4)------------\n")
+# print("\n------------Beam Search (beam length-4)-------------\n")
+# statesExplored.clear()
+# finalState, b4p = beamSearch(Expression, intialState, 4, 1)
+# if not finalState in statesExplored:
+#     statesExplored.append(finalState)
+# print("States Explored : " + b4p)
+# for e in statesExplored:
+#     print(e)
+
+# print("\n-------------Tabu search (tabu tenure-1)------------\n")
+# statesExplored.clear()
+# tt = 1
+# finalState, tabu = Tabu(Expression, intialState, tt, 1)
+# if not finalState in statesExplored:
+#     statesExplored.append(finalState)
+# print("States Explored : " + tabu)
+# for e in statesExplored:
+#     print(e)
+
+print("\n-------------Tabu search (tabu tenure-2)------------\n")
 statesExplored.clear()
-tt = 4
+tt = 2
 finalState, tabu = Tabu(Expression, intialState, tt, 1)
 if not finalState in statesExplored:
     statesExplored.append(finalState)
 print("States Explored : " + tabu)
 for e in statesExplored:
     print(e)
+
+# print("\n-------------Tabu search (tabu tenure-3)------------\n")
+# statesExplored.clear()
+# tt = 3
+# finalState, tabu = Tabu(Expression, intialState, tt, 1)
+# if not finalState in statesExplored:
+#     statesExplored.append(finalState)
+# print("States Explored : " + tabu)
+# for e in statesExplored:
+#     print(e)
+
+# print("\n-------------Tabu search (tabu tenure-4)------------\n")
+# statesExplored.clear()
+# tt = 4
+# finalState, tabu = Tabu(Expression, intialState, tt, 1)
+# if not finalState in statesExplored:
+#     statesExplored.append(finalState)
+# print("States Explored : " + tabu)
+# for e in statesExplored:
+#     print(e)
 
 # print(ttarray)
 # print(time)
