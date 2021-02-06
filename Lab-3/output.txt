@@ -1,0 +1,23 @@
+[['A', 'b', 'c'], ['C', 'D', 'a'], ['D', 'a', 'c'], ['a', 'b', 'd'], ['b', 'c', 'd']]
+Initial state : {'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
+Heuristic Value : 5
+
+------------Beam Search (beam length-3)-------------
+
+States Explored : 1
+{'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
+
+------------Beam Search (beam length-4)-------------
+
+States Explored : 1
+{'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
+
+-------------Tabu search (tabu tenure-4)------------
+
+States Explored : 1
+{'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
+
+-----------Variable neighborhood descent--------------
+
+States explored : 1
+{'a': 1, 'b': 0, 'c': 1, 'd': 0, 'A': 0, 'B': 1, 'C': 0, 'D': 1}
