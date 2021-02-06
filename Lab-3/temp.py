@@ -39,8 +39,6 @@ def solve(Expression, assign):
 
 initialValue = solve(Expression, intialState)
 
-print(initialValue)
-
 print("Initial state : ", intialState,"\nHeuristic Value : ",initialValue, sep="")
 
 
@@ -109,15 +107,15 @@ def beamSearch(Expression, intermediateState, beam, stepSize):
                 return beamSearch(Expression, a, beam, stepSize)
 
 # %%
-ttarray = [6,7,5,8]
+# ttarray = [6,7,5,8]
 # ttarray = [2,3,1,4]
-# ttarray = [0,0,0,0]
+ttarray = [0,0,0,0]
 time = 0
 
 
 def Tabu(Expression, intermediateState, tt,stepSize):
 
-    print(ttarray)
+    # print(ttarray)
     # print(time+1)
     global time
     time+=1
@@ -208,27 +206,127 @@ def Tabu(Expression, intermediateState, tt,stepSize):
                 return Tabu(Expression, a, tt, stepSize)
 
 # %%
+def hillClimbing(Expression, intermediateState, parentNum, received, step):
+    
+       
+    intermediateStateValues = list(intermediateState.values())
+    intermediateStateKeys = list(intermediateState.keys())
+    
+    maxNum = parentNum
+    maxAssign = intermediateState.copy()
+    
+    for i in range(int(len(intermediateStateValues) / 2)):
 
-# statesExplored.clear()
-# finalState, b3p = beamSearch(Expression, intialState, 3, 1)
-# if(not finalState in statesExplored):
-#     statesExplored.append(finalState)
-# print("States Explored : "+b3p)
-# for e in statesExplored:
-#     print(e)
+        editintermediateState = intermediateState.copy()
+        bestAssign = intermediateState.copy()   
 
-# print(finalState)
+        editintermediateState[intermediateStateKeys[i]] = abs(
+            intermediateStateValues[i] - 1
+        )
+        editintermediateState[intermediateStateKeys[i + 4]] = abs(
+            intermediateStateValues[i + 4] - 1
+        )
 
-# print("\n-------------------------\n")
-# statesExplored.clear()
-# finalState, b4p = beamSearch(Expression, intialState, 4, 1)
-# if(not finalState in statesExplored):
-#     statesExplored.append(finalState)
-# print("States Explored : "+b4p)
-# for e in statesExplored:
-#     print(e)
+        
+        step += 1
+        c = solve(Expression, editintermediateState)
+        if maxNum<c:
+            received = step
+            maxNum = c
+            maxAssign = editintermediateState.copy()
+            
+    if maxNum==parentNum:
+        s = str(received)
+        return bestAssign, maxNum, s
+    else:
+        parentNum = maxNum
+        bestassign = maxAssign.copy()
+        return hillClimbing(Expression, bestassign, parentNum, received, step)
 
-print("\n-------------------------\n")
+
+# %%
+def variableNeighbor(Expression, intermediateState, b, step):
+
+    statesExplored.append(intermediateState)
+        
+    intermediateStateValues = list(intermediateState.values())
+    intermediateStateKeys = list(intermediateState.keys())
+
+    steps = []
+    possibleintermediateStates = []
+    possibleScores = []
+    
+    initialValue = solve(Expression, intermediateState)
+
+    if initialValue == len(Expression):
+        p = str(step)
+        return intermediateState, p, b
+
+
+    for i in range(int(len(intermediateStateValues) / 2)):
+
+        editintermediateState = intermediateState.copy()
+        editintermediateState[intermediateStateKeys[i]] = abs(
+            intermediateStateValues[i] - 1
+        )
+        editintermediateState[intermediateStateKeys[i + 4]] = abs(
+            intermediateStateValues[i + 4] - 1
+        )
+
+        c = solve(Expression, editintermediateState)
+        step += 1
+        possibleintermediateStates.append(editintermediateState.copy())
+        possibleScores.append(c)
+        steps.append(step)
+    
+    # for i in range(len(possibleintermediateStates)):
+    #     print(possibleScores[i])
+    #     print(possibleintermediateStates[i])
+
+    selected = list(np.argsort(possibleScores))[-b:]
+    # print(selected)
+
+    if len(Expression) in possibleScores:
+        index = [i for i in range(len(possibleScores)) if possibleScores[i]==len(Expression)]
+        p = str(steps[-1])
+        return possibleintermediateStates[index[0]], p, b
+    
+    else:
+        selectedAssigns = [possibleintermediateStates[i] for i in selected]
+        for a in selectedAssigns:
+            bestAssign, maxNum, s = hillClimbing(Expression, a, initialValue, 1, 1)
+            step+=int(s)
+            if(maxNum == len(Expression)):
+                statesExplored.append(a)
+                return variableNeighbor(Expression, bestAssign, b, step)
+
+        variableNeighbor(Expression, intermediateState, b+1, step)
+
+
+
+# %%
+
+print("\n------------Beam Search (beam length-3)-------------\n")
+statesExplored.clear()
+finalState, b3p = beamSearch(Expression, intialState, 3, 1)
+if(not finalState in statesExplored):
+    statesExplored.append(finalState)
+print("States Explored : "+b3p)
+for e in statesExplored:
+    print(e)
+
+
+
+print("\n------------Beam Search (beam length-4)-------------\n")
+statesExplored.clear()
+finalState, b4p = beamSearch(Expression, intialState, 4, 1)
+if(not finalState in statesExplored):
+    statesExplored.append(finalState)
+print("States Explored : "+b4p)
+for e in statesExplored:
+    print(e)
+
+print("\n-------------Tabu search (tabu tenure-4)------------\n")
 statesExplored.clear()
 tt = 4 
 finalState, tabu = Tabu(Expression, intialState, tt, 1)
@@ -238,6 +336,16 @@ print("States Explored : "+tabu)
 for e in statesExplored:
     print(e)
 
-print(ttarray)
-print(time)
+# print(ttarray)
+# print(time)
 # print(finalState)
+
+print("\n-----------Variable neighborhood descent--------------\n")
+statesExplored.clear()
+finalState, p, bb = variableNeighbor(Expression, intialState, 1, 1)
+if(not finalState in statesExplored):
+    statesExplored.append(finalState)
+print("States explored : ",p,sep='')
+
+for e in statesExplored:
+    print(e)

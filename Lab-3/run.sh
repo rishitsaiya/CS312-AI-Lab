@@ -1,4 +1,4 @@
-# python3 4-SAT.py
+python3 4-SAT.py
 
 # ('A', 'B', 'c')
 # ('A', 'c', 'd')
