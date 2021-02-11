@@ -3,14 +3,16 @@ import random
 import sys
 import time
 
+# Function for Ant Colony
 class AntColony(object):
 
     def __init__(self, DistanceBetCities, numAnts, maxIterations, alpha, beta, rho, Q):
 
+# Initializations
         self.DistanceBetCities = DistanceBetCities
         self.numAnts = numAnts
         self.maxIterations = maxIterations
-
+# Parameters initialized
         self.Q = Q
         self.beta = beta
         self.rho = rho
@@ -23,13 +25,16 @@ class AntColony(object):
 
         self.N = len(DistanceBetCities)
 
+# Parameters assignment
         self.pheromones = [
             [0.1 for city in range(NumOfCities)] for selectedcity in range(NumOfCities)]
         self.bestCost = float('Inf')
         self.bestTour = range(NumOfCities)
 
+# Function for Optimization
     def optimise(self):
 
+# Loop initialization
         while time.time()-start < 298:
 
             ants = []
@@ -66,6 +71,7 @@ class AntColony(object):
             if time.time()-self.lastChange > 300:
                 break
 
+# Ant class structure defined
 
 class Ant(object):
 
@@ -73,6 +79,7 @@ class Ant(object):
         self.currentPath = []
         self.getPath(DistanceBetCities, pheromones, alpha, beta)
 
+# Get Path for ant
     def getPath(self, DistanceBetCities, pheromones, alpha, beta):
 
         initiate = random.randint(0, NumOfCities-1)
@@ -92,6 +99,7 @@ class Ant(object):
             self.currentPath.append(nextCity)
             validCities.remove(nextCity)
 
+# Path cost function
     def pathCost(self, DistanceBetCities):
         fare = 0
         for i in range(len(self.currentPath)):
@@ -128,7 +136,7 @@ if __name__ == '__main__':
 
     # print(CityCoordinates)
     # print(DistanceBetCities)
-
+# Euclidean Distance init
     if isEuclidean:
         aco = AntColony(DistanceBetCities, numAnts=int(NumOfCities),
                     maxIterations=200, alpha=3, beta=3, rho=0.1, Q=0.1)
