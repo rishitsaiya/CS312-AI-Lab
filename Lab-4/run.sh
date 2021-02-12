@@ -1,1 +1,1 @@
-python3 aco_optimized.py $1 > output.txt
+python3 12.py $1 > output.txt
