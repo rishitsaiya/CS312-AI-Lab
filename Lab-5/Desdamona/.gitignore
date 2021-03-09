@@ -1,0 +1,11 @@
+doc/
+obj/
+bin/
+lib/
+*.swp
+*.swo
+*.pyc
+*.o
+*.so
+*~
+web/settings.py
