@@ -174,19 +174,19 @@ int MyBot::heuristicForMinMax(OthelloBoard &board, int mode)
                 oppPositionValue -= 181;
         }
 
-        int x5[] = {2, 1, 6, 5, 1, 5, 6, 2};
-        int y5[] = {1, 2, 5, 6, 5, 1, 2, 6};
+        // int x5[] = {2, 1, 6, 5, 1, 5, 6, 2};
+        // int y5[] = {1, 2, 5, 6, 5, 1, 2, 6};
 
-        for (int i = 0; i < 8; ++i)
-        {
-            if (board.get(x5[i], y5[i]) == this->turn)
-                myPositionValue += 53;
-            else if (board.get(x5[i], y5[i]) == other(this->turn))
-                oppPositionValue += 53;
-        }
+        // for (int i = 0; i < 8; ++i)
+        // {
+        //     if (board.get(x5[i], y5[i]) == this->turn)
+        //         myPositionValue -= 6;
+        //     else if (board.get(x5[i], y5[i]) == other(this->turn))
+        //         oppPositionValue -= 6;
+        // }
 
         int x6[] = {2, 1, 6, 5, 1, 5, 6, 2, 2, 2, 5, 5};
-        int y6[] = {1, 2, 5, 6, 5, 1, 2, 6, 3, 5, 3, 4};
+        int y6[] = {1, 2, 5, 6, 5, 1, 2, 6, 3, 4, 3, 4};
 
         for (int i = 0; i < 12; ++i)
         {
@@ -235,9 +235,9 @@ int MyBot::heuristicForMinMax(OthelloBoard &board, int mode)
         for (int i = 0; i < 4; ++i)
         {
             if (board.get(x10[i], y10[i]) == this->turn)
-                myPositionValue += 6;
+                myPositionValue += 7;
             else if (board.get(x10[i], y10[i]) == other(this->turn))
-                oppPositionValue += 6;
+                oppPositionValue += 7;
         }
 
         return (myPositionValue - oppPositionValue);
