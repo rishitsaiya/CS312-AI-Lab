@@ -18,7 +18,7 @@ path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
 data = pd.read_csv(path,header=None)
 data.head()
 
-!ls
+# !ls
 
 data.info()
 
