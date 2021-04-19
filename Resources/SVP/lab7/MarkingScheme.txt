@@ -1,0 +1,25 @@
+In case of win,
+Winner's score = 64 + margin
+   
+Loser's score = 0
+
+ 
+
+
+In case of draw,
+
+Both score = 32 
+
+
+
+If one is disqualified or timeout error
+:  
+Culprit's score = -64
+    
+Other player's score = 64
+
+
+
+If unknown error
+: 
+Consider both players to not have played this game
