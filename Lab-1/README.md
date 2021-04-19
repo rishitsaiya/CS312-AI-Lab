@@ -1,20 +1,21 @@
-## To run : 
+## Lab-1
+
+#### To run : 
 
 ```bash
 ./run.sh input1.txt input2.txt input3.txt 
 ```
 
-## To Get Stats :
+#### To Get Stats :
 ```bash
 ./stats.sh 2x2.txt 4x4.txt 6x6.txt 8x8.txt 10x10.txt 
 ```
 
-### Stats :
+#### Stats :
 
 0 for BFS, 1 for DFS, 2 for DFID : Number of states explored "\s" Length of path
 
 #### DURL Order
-
 
 ``` 
 2x2
@@ -44,7 +45,6 @@
 ```
 
 #### RLDU Order
-
 
 ```
 2x2
