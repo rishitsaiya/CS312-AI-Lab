@@ -1,4 +1,0 @@
-To run the code, type "python main.py"
-To adjust gamma, modify line 6 in 'policies.py'
-To adjust episodes of policy iteration, line 23 of 'main.py' is way to go
-To switch between stochastic and deterministic moves, lin 71-91 is the desired code
