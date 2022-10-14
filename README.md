@@ -20,3 +20,5 @@ This lab includes implementation of Spam Email Classification using Support Vect
 
 7. [Lab-7](https://github.com/rishitsaiya/CS312-AI-Lab/tree/main/Lab-7) <br>
 This lab includes implementation of Grid World Problem using techniques of Value Iteration and Policy Iteration in Reinforcement Learning to get optimal cost.
+
+This repo is open to PRs for refinement and betterment in codes.
